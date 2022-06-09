@@ -96,8 +96,31 @@
 
   //Navigation bar for visualization
   recPanelUI.visualizationNavBar = function (recommendation) {
+    console.log(recommendation);
     recPanelUI.clearVisOutput("navBarContainer");
     let tasks = window.GLOBALDATA.tasks.selectedTasks;
+
+    let interactionFlareHTML = "";
+    if (recommendation.interaction) {
+      let interactionTags = recommendation.interaction.map(interaction => {
+        return `<span class="tag">${interaction.label}</span>`
+      }).join('\n');
+      interactionFlareHTML += `<span>
+        <i title="Interaction" class="fas fa-bullseye"></i>
+        ${interactionTags}
+      </span>`
+    }
+
+    let widgetFlareHTML = "";
+    if (recommendation.widgets) {
+      let widgetTags = recommendation.widgets.map(widget => {
+        return `<span class="tag">${widget}</span>`
+      }).join('\n');
+      widgetFlareHTML += `<span>
+        <i title="Widget" class="fas fa-sliders-h"></i>
+        ${widgetTags}
+      </span>`
+    }
 
     $("#recPanelBody").append(
       `
@@ -109,8 +132,10 @@
         } </span>
         </div>
           <div class="headerContainerItem floatRight" id="visSetting">
-          <span class="iconButton" id="settingIcon"> <i class="btn fas fa-cog" title="Configure the visualization"></i> </span>
-          <span class="iconButton" id="exportIcon"> <i class="btn fas fa-file-export" title="Export the visualization"></i> </span>
+            ${interactionFlareHTML}
+            ${widgetFlareHTML}
+            <span class="iconButton" id="settingIcon"> <i class="btn fas fa-cog" title="Configure the visualization"></i> </span>
+            <span class="iconButton" id="exportIcon"> <i class="btn fas fa-file-export" title="Export the visualization"></i> </span>
          </div>
          <br/>
       </div>
