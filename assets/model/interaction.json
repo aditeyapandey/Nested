@@ -1,0 +1,76 @@
+{
+  "task": {
+    "categorical_value": {
+      "identify": [{ "interaction": "highlightNode" }],
+      "compare": "",
+      "summary": ""
+    },
+    "quantitative_value": {
+      "identify": [
+        { "interaction": "highlightNode" },
+        { "interaction": "elaborateValue" }
+      ],
+      "compare": "",
+      "summary": ""
+    },
+    "size": {
+      "identify": [
+        { "interaction": "highlightDescendants" },
+        { "interaction": "elaborateValue" }
+      ],
+      "compare": "",
+      "summary": ""
+    },
+    "degree": {
+      "identify": [
+        { "interaction": "highlightChildNodes" },
+        { "interaction": "elaborateValue" }
+      ],
+      "compare": "",
+      "summary": ""
+    },
+    "ancestors": {
+      "identify": [{ "interaction": "highlightAncestors" }],
+      "compare": "",
+      "summary": ""
+    },
+    "descendants": {
+      "identify": [{ "interaction": "highlightDescendants" }],
+      "compare": "",
+      "summary": ""
+    },
+    "height": {
+      "identify": "",
+      "compare": "",
+      "summary": ""
+    },
+    "balance": {
+      "identify": [],
+      "compare": "",
+      "summary": ""
+    },
+    "path": {
+      "identify": [{ "interaction": "highlightPath" }],
+      "compare": "",
+      "summary": ""
+    },
+    "depth": {
+      "identify": [
+        { "interaction": "highlightPath" },
+        { "interaction": "elaborateValue" }
+      ],
+      "compare": "",
+      "summary": ""
+    },
+    "sibling": {
+      "identify": [{ "interaction": "highlightSibling" }],
+      "compare": "",
+      "summary": ""
+    },
+    "order": {
+      "identify": [],
+      "compare": "",
+      "summary": ""
+    }
+  }
+}
