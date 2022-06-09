@@ -18,7 +18,7 @@
         recPanelUI.recommendationInformation(recommendation);
         recPanelUI.visualizationNavBar(recommendation);
         recPanelUI.renderWidgets(recommendation);
-        recPanelUI.renderRecommendation();
+        recPanelUI.renderRecommendation(recommendation);
         dataPanelUI.attrSelectionBtn();
         dataPanelUI.treeSummaryPanel();
     }

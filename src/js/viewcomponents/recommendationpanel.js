@@ -300,12 +300,17 @@
   };
 
   //Params: recommendation: Object that is returned by recommendation system.
-  recPanelUI.renderRecommendation = function () {
+  recPanelUI.renderRecommendation = function (recommendation) {
+    console.log(recommendation);
     recPanelUI.clearVisOutput("visOutput");
-    let recommendation =
+
+    //Identify the vis recommendation
+    let visRecommendation = 
       window.GLOBALDATA.currentVis === ""
         ? "nodelink"
         : window.GLOBALDATA.currentVis;
+
+    //Set data and attr context    
     var data = window.GLOBALDATA.data["data"];
     var attr = window.GLOBALDATA.data["nodeSizeMappingAttribute"];
     let defaultAttr = true;
@@ -313,26 +318,45 @@
     if (attr !== "Degree") {
       defaultAttr = false;
     }
+
+    //Identify the interaction
+    let interactionActive = {
+      highlightNode:false,
+      highlightAncestors:false,
+      highlightDescendant:false,
+      highlightSiblings:false,
+      highlightChildNodes:false,
+      highlightPath:false
+    }
+    recommendation.interaction.forEach(interaction => {
+      if(interaction.active)
+      {
+        interactionActive[interaction.id] = true;
+      }
+    })
+    console.log(interactionActive)
+
+
     //Checking ancestor interaction
     let tasks = window.GLOBALDATA.tasks.selectedTasks;
     let isHighLightAncestor = false;
     let query = window.GLOBALDATA.tasks.selectedQuery;
-    for (val of tasks) {
-      if (
-        window.GLOBALDATA.taskPropertyMap[val][query]["interaction"].indexOf(
-          "highlight ancestors"
-        ) !== -1
-      ) {
-        isHighLightAncestor = true;
-      }
-    }
+    // for (val of tasks) {
+    //   if (
+    //     window.GLOBALDATA.taskPropertyMap[val][query]["interaction"].indexOf(
+    //       "highlight ancestors"
+    //     ) !== -1
+    //   ) {
+    //     isHighLightAncestor = true;
+    //   }
+    // }
 
     //Adding a container for visualization
     $("#recPanelBody").append(
       `<div class="visOutputElement panelbodyitem" id='visOutput'> </div>`
     );
     let chart;
-    if (recommendation === "nodelink") {
+    if (visRecommendation === "nodelink") {
       chart = dendrogram.createDendrogram(data, {
         label: (d) => d.name,
         // title: (d, n) =>
@@ -343,10 +367,11 @@
         //     .join(".")}`, // hover text
         width: 850,
         value: defaultAttr ? null : (d) => d[attr],
+        interactions: interactionActive
         // highlightAncestors: isHighLightAncestor,
       });
     }
-    if (recommendation === "icicle") {
+    if (visRecommendation === "icicle") {
       chart = icicle.createIcicle(data, {
         label: (d) => d.name,
         // title: (d, n) =>
@@ -360,7 +385,7 @@
         height: 1000,
       });
     }
-    if (recommendation === "treemap") {
+    if (visRecommendation === "treemap") {
       chart = nestedTreemap.createChart(data, {
         width: 1152,
         height: 1152,
@@ -380,10 +405,10 @@
       //   height: 1152,
       // });
     }
-    if (recommendation === "indented") {
+    if (visRecommendation === "indented") {
       chart = indentedList.createIndentedList(data, {});
     }
-    if (recommendation === "radialNL") {
+    if (visRecommendation === "radialNL") {
       chart = radialNodeLink.createChart(data, {
         label: (d) => d.name,
         // title: (d, n) => `${n.ancestors().reverse().map(d => d.data.name).join(".")}`, // hover text
@@ -392,7 +417,7 @@
         height: 1152,
       });
     }
-    if (recommendation === "radialLD") {
+    if (visRecommendation === "radialLD") {
       chart = sunburst.createChart(data, {
         label: (d) => d.name,
         // title: (d, n) =>
@@ -406,7 +431,7 @@
         height: 1152,
       });
     }
-    if (recommendation === "radialED") {
+    if (visRecommendation === "radialED") {
       chart = nestedBubble.createChart(data, {
         value: defaultAttr ? null : (d) => d[attr],
         label: (d, n) => d.name.split(/(?=[A-Z][a-z])/g),

@@ -49,36 +49,48 @@
     //If input data is already in hierarchy then parse as is
 
     d3.json("../assets/data/" + fileName).then((data) => {
-      if (isHierarchy) {
-        dataProcessing.renderVis(data, fileKey);
-        // window.GLOBALDATA.files[fileKey]["data"] = data;
-        // createDataObject(data);
-        // renderingControl.visUpdate();
-      } else {
-        let hierarchyOrder = window.GLOBALDATA.files[fileKey]["hierarchy"];
-        let values = window.GLOBALDATA.files[fileKey]["values"].map(d =>d.attrName);
-        var obj = {
-          name: "Superstore",
-          children: mapToObject(
-            d3.rollup(
-              data,
-              (v) => {
-                return {
-                  value: {
-                    ...values.map((val) => {
-                      let tempObj = {};
-                      tempObj[val] = d3.sum(v, (d) => d[val]);
-                      return tempObj;
-                    }),
-                  },
-                };
-              },
-              ...hierarchyOrder.map((a) => (d) => d[a])
-            )
-          ),
-        };
-        dataProcessing.renderVis(obj, fileKey);
-      }
+      d3.json("../assets/model/interaction.json").then((interaction)=>{
+        /*
+        Read the interaction file 
+        */
+        window.GLOBALDATA.model = {};
+        window.GLOBALDATA.model = interaction;
+
+        /*
+        Read and process the hierarchical data file 
+        */
+        if (isHierarchy) {
+          dataProcessing.renderVis(data, fileKey);
+          // window.GLOBALDATA.files[fileKey]["data"] = data;
+          // createDataObject(data);
+          // renderingControl.visUpdate();
+        } else {
+          let hierarchyOrder = window.GLOBALDATA.files[fileKey]["hierarchy"];
+          let values = window.GLOBALDATA.files[fileKey]["values"].map(d =>d.attrName);
+          var obj = {
+            name: "Superstore",
+            children: mapToObject(
+              d3.rollup(
+                data,
+                (v) => {
+                  return {
+                    value: {
+                      ...values.map((val) => {
+                        let tempObj = {};
+                        tempObj[val] = d3.sum(v, (d) => d[val]);
+                        return tempObj;
+                      }),
+                    },
+                  };
+                },
+                ...hierarchyOrder.map((a) => (d) => d[a])
+              )
+            ),
+          };
+          dataProcessing.renderVis(obj, fileKey);
+        }
+      })
+
     });
   };
 

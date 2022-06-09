@@ -1,46 +1,49 @@
 {
-  "task": {
+  "interaction": {
     "categorical_value": {
-      "identify": [{ "interaction": "highlightNode" }],
+      "identify": [{ "id": "highlightNode" }],
       "compare": "",
       "summary": ""
     },
     "quantitative_value": {
       "identify": [
-        { "interaction": "highlightNode" },
-        { "interaction": "elaborateValue" }
+        { "id": "highlightNode" },
+        { "id": "elaborateValue" }
       ],
       "compare": "",
       "summary": ""
     },
     "size": {
       "identify": [
-        { "interaction": "highlightDescendants" },
-        { "interaction": "elaborateValue" }
+        { "id": "highlightDescendants" },
+        { "id": "elaborateValue" }
       ],
       "compare": "",
       "summary": ""
     },
     "degree": {
       "identify": [
-        { "interaction": "highlightChildNodes" },
-        { "interaction": "elaborateValue" }
+        { "id": "highlightChildNodes" },
+        { "id": "elaborateValue" }
       ],
       "compare": "",
       "summary": ""
     },
     "ancestors": {
-      "identify": [{ "interaction": "highlightAncestors" }],
+      "identify": [{ "id": "highlightAncestors" }],
       "compare": "",
       "summary": ""
     },
     "descendants": {
-      "identify": [{ "interaction": "highlightDescendants" }],
+      "identify": [{ "id": "highlightDescendants" }],
       "compare": "",
       "summary": ""
     },
     "height": {
-      "identify": "",
+      "identify": [
+        { "id": "highlightPath" },
+        { "id": "elaborateValue" }
+      ],
       "compare": "",
       "summary": ""
     },
@@ -50,20 +53,20 @@
       "summary": ""
     },
     "path": {
-      "identify": [{ "interaction": "highlightPath" }],
+      "identify": [{ "id": "highlightPath" }],
       "compare": "",
       "summary": ""
     },
     "depth": {
       "identify": [
-        { "interaction": "highlightPath" },
-        { "interaction": "elaborateValue" }
+        { "id": "highlightPath" },
+        { "id": "elaborateValue" }
       ],
       "compare": "",
       "summary": ""
     },
     "sibling": {
-      "identify": [{ "interaction": "highlightSibling" }],
+      "identify": [{ "id": "highlightSiblings" }],
       "compare": "",
       "summary": ""
     },
