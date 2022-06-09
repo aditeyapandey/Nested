@@ -229,12 +229,12 @@ var GLOBALDATA = {
   },
 
   highlightSelectInteraction: [
-    { label: "Node", interactionLabel:"Highlight Node", id: "node", active: true, color: "n/a" },
-    { label: "Ancestors", interactionLabel:"Show All Ancestors" ,id: "ancestors", active: false, color: "n/a" },
-    { label: "Descendants", interactionLabel:"Show All Descendants" ,id: "descendants", active: false, color: "n/a" },
-    { label: "Direct Children", interactionLabel:"Highlight Children", id: "degree", active: false, color: "n/a" },
-    { label: "Siblings", id: "siblings",interactionLabel:"Highlight Siblings" ,active: false, color: "n/a" },
-    { label: "Path", id: "path", interactionLabel:"Show Path Between Nodes",active: false, color: "n/a" },
+    { label: "Node", interactionLabel:"Highlight Node", id: "node", active: true, color: "#FAEACB" },
+    { label: "Ancestors", interactionLabel:"Show All Ancestors" ,id: "ancestors", active: false, color: "#F7DBD7" },
+    { label: "Descendants", interactionLabel:"Show All Descendants" ,id: "descendants", active: false, color: "#9CC0E7" },
+    { label: "Direct Children", interactionLabel:"Highlight Children", id: "degree", active: false, color: "#D0B2F1" },
+    { label: "Siblings", id: "siblings",interactionLabel:"Highlight Siblings" ,active: false, color: "#ABD2AC" },
+    { label: "Path", id: "path", interactionLabel:"Show Path Between Nodes",active: false, color: "#9DA2E9" },
   ],
   tooltipFields: [
     { label: "Node Value", id: "value", active: false },
