@@ -96,8 +96,33 @@
 
   //Navigation bar for visualization
   recPanelUI.visualizationNavBar = function (recommendation) {
+    console.log(recommendation);
     recPanelUI.clearVisOutput("navBarContainer");
     let tasks = window.GLOBALDATA.tasks.selectedTasks;
+
+    let interactionFlareHTML = "";
+    if (recommendation.interaction) {
+      let interactionTags = recommendation.interaction
+      .filter(interaction => interaction.active)
+      .map(interaction => {
+        return `<span class="tag" style="background-color: ${interaction.color}">${interaction.label}</span>`
+      }).join('\n');
+      interactionFlareHTML += `<span>
+        <span class="tag-label">Interactions</span>
+        ${interactionTags}
+      </span>`
+    }
+
+    let widgetFlareHTML = "";
+    if (recommendation.widgets) {
+      let widgetTags = recommendation.widgets.map(widget => {
+        return `<span class="tag">${widget}</span>`
+      }).join('\n');
+      widgetFlareHTML += `<span>
+      <span class="tag-label">Widgets</span>
+        ${widgetTags}
+      </span>`
+    }
 
     $("#recPanelBody").append(
       `
@@ -108,11 +133,15 @@
           window.GLOBALDATA.files[window.GLOBALDATA.currentFile]["label"]
         } </span>
         </div>
-          <div class="headerContainerItem floatRight" id="visSetting">
+        <div class="headerContainerItem floatRight" id="visSetting">
           <span class="iconButton" id="settingIcon"> <i class="btn fas fa-cog" title="Configure the visualization"></i> </span>
           <span class="iconButton" id="exportIcon"> <i class="btn fas fa-file-export" title="Export the visualization"></i> </span>
-         </div>
-         <br/>
+        </div>
+        <br/>
+      </div>
+      <div>
+        ${interactionFlareHTML}
+        ${widgetFlareHTML}
       </div>
       ${recPanelUI.visualizationSettingsBar(recommendation)}
       </div>
