@@ -4,17 +4,18 @@
     console.log(widget);
     return `
         <div class="col-4 widgetElement" id="rangeFilter">
-            <p class="bold"> Degree </p>
+            <p class="bold"> ${widget.label} </p>
             <div id="vis"></div>
             <div id="slider-range"></div>
         <div>`;
   };
   widgetRangeFilter.setupRangeFilter = function (widget,data) {
 
+    console.log(widget.attrToUse);
     let allData = data.descendants();
     console.log(allData);
 
-    var yourVlSpec = createVegaSpec(50, 50, [0, 26],allData);
+    var yourVlSpec = createVegaSpec(50, 50, [0, 26],allData,widget.attrToUse);
     $("#slider-range").slider({
       range: true,
       min: 8,
@@ -44,7 +45,7 @@
     });
   };
 
-  function createVegaSpec(width, height, sliderRange,allData) {
+  function createVegaSpec(width, height, sliderRange,allData,attrToUse) {
     let vegaSpec = {
       $schema: "https://vega.github.io/schema/vega-lite/v5.json",
       data: {values:allData},
@@ -60,7 +61,7 @@
           ],
           mark: "bar",
           encoding: {
-            x: { field: "value", bin: true },
+            x: { field: attrToUse, bin: true },
             y: { aggregate: "count", title:"count" },
           },
         },
@@ -68,7 +69,7 @@
           transform: [{ filter: { param: "brush" } }],
           mark: "bar",
           encoding: {
-            x: { field: "value", bin: true },
+            x: { field: attrToUse, bin: true },
             y: { aggregate: "count", title:"count" },
             color: { value: "goldenrod" },
           },
