@@ -153,7 +153,6 @@
           let siblingNodes = parentDescendants.filter(
             (d) => d.parent === parent
           );
-          console.log(siblingNodes);
           interaction.highlightSiblingsWithNoLinks(siblingNodes, "select");
         }
         //Highlight Child Nodes

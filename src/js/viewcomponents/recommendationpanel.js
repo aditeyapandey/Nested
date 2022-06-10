@@ -430,6 +430,7 @@
         value: defaultAttr ? null : (d) => d[attr],
         width: 1152,
         height: 1152,
+        interactions: interactionActive
       });
     }
     if (visRecommendation === "radialED") {
