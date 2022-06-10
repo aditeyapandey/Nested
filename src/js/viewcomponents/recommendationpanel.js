@@ -116,7 +116,7 @@
     let widgetFlareHTML = "";
     if (recommendation.widgets) {
       let widgetTags = recommendation.widgets.map(widget => {
-        return `<span class="tag">${widget}</span>`
+        return `<span class="tag">${widget.name}</span>`
       }).join('\n');
       widgetFlareHTML += `<span>
       <span class="tag-label">Widgets</span>
@@ -280,21 +280,26 @@
     </div>`;
   };
 
+  //Widget Creation
   recPanelUI.renderWidgets = function (recommendation) {
+    /**
+     * Object structure: 
+     * widget: [{name:"range","task":"quantitative_value", label:"Node Value"}]
+     */
     recPanelUI.clearVisOutput("widgetContainer");
-
 
     $("#recPanelBody").append(
       ` <div class="widgetContainerBody panelbodyitem" id="widgetContainer">
         </div>`
     );
     for (widget of recommendation.widgets) {
-    if (widget === "search") {
+    if (widget.name === "search") {
       $("#widgetContainer").append(widgetSearchBox.createSearchBox());
     }
-    if (widget === "range") {
-      $("#widgetContainer").append(widgetRangeFilter.createRangeFilter());
-      widgetRangeFilter.setupRangeFilter();
+    if (widget.name === "range") {
+      let data = window.GLOBALDATA.data["data"];
+      $("#widgetContainer").append(widgetRangeFilter.createRangeFilter(widget));
+      widgetRangeFilter.setupRangeFilter(widget,data);
     }
   }
   };
@@ -335,21 +340,6 @@
       }
     })
     // console.log(interactionActive)
-
-
-    //Checking ancestor interaction
-    let tasks = window.GLOBALDATA.tasks.selectedTasks;
-    let isHighLightAncestor = false;
-    let query = window.GLOBALDATA.tasks.selectedQuery;
-    // for (val of tasks) {
-    //   if (
-    //     window.GLOBALDATA.taskPropertyMap[val][query]["interaction"].indexOf(
-    //       "highlight ancestors"
-    //     ) !== -1
-    //   ) {
-    //     isHighLightAncestor = true;
-    //   }
-    // }
 
     //Adding a container for visualization
     $("#recPanelBody").append(

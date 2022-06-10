@@ -6,14 +6,41 @@
     widgets;
     interaction;
 
-    constructor(visOrder, widgets, interaction, tooltip, visSetting) {
+    constructor(
+      visOrder,
+      widgets,
+      interaction,
+      tooltip,
+      visSetting,
+      hierarchydata
+    ) {
       this.visOrder = visOrder;
       this.widgets = widgets;
       this.interaction = interaction;
       this.tooltip = tooltip;
       this.visSetting = visSetting;
+      this.hierarchydata = hierarchydata
     }
   }
+
+  recommendation.createHierarchyData = function (data, value = null) {
+    var attr = window.GLOBALDATA.data["nodeSizeMappingAttribute"];
+    let defaultAttr = true;
+    //Check if selected attr is different than "Degree"
+    if (attr !== "Degree") {
+      defaultAttr = false;
+    }
+
+    const root = d3.hierarchy(data).eachBefore((d, i) => (d.index = i++));
+
+    if (!defaultAttr) {
+      value = (d) => d[attr];
+      root.sum((d) => Math.max(0, value(d)));
+    } else {
+      root.count();
+    }
+    return root;
+  };
 
   recommendation.createRecommendation = function () {
     let tempRec1 = {
@@ -88,15 +115,26 @@
       });
     });
 
-    /*////////////////////////////////
+    /**
+     * Convert data to hierarchy
      */
+    let hierarchyData = recommendation.createHierarchyData(window.GLOBALDATA.data["data"]);
 
     let recommendationFinal = new Recommendation(
       visOrder,
-      ["search"],
+      [
+        { name: "search", task: "categorical_value", label: "Node Label" },
+        {
+          name: "range",
+          task: "quantitative_value",
+          label: "Node Value",
+          attrToUse: "value",
+        },
+      ],
       localInteractionCopy,
       window.GLOBALDATA.tooltipFields,
-      window.GLOBALDATA.visSettings
+      window.GLOBALDATA.visSettings,
+      hierarchyData
     );
     renderingControl.visUpdate(recommendationFinal);
   };

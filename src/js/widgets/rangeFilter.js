@@ -1,6 +1,7 @@
 (function () {
   widgetRangeFilter = {};
-  widgetRangeFilter.createRangeFilter = function () {
+  widgetRangeFilter.createRangeFilter = function (widget) {
+    console.log(widget);
     return `
         <div class="col-4 widgetElement" id="rangeFilter">
             <p class="bold"> Degree </p>
@@ -8,9 +9,10 @@
             <div id="slider-range"></div>
         <div>`;
   };
-  widgetRangeFilter.setupRangeFilter = function () {
-    var yourVlSpec = createVegaSpec(50, 50, [0, 26]);
+  widgetRangeFilter.setupRangeFilter = function (widget,data) {
+    console.log(widget,data);
 
+    var yourVlSpec = createVegaSpec(50, 50, [0, 26]);
     $("#slider-range").slider({
       range: true,
       min: 8,
