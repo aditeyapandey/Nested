@@ -36,7 +36,7 @@
         interactions = {
           highlightNode:false,
           highlightAncestors:false,
-          highlightDescendant:false,
+          highlightDescendants:false,
           highlightSiblings:false,
           highlightChildNodes:false,
           highlightPath:false

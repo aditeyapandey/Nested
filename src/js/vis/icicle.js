@@ -35,6 +35,14 @@
       highlightSiblings = false, //Enable siblings interaction
       highlightChildNodes = false,
       highlightPath = false,
+      interactions = {
+        highlightNode: false,
+        highlightAncestors: false,
+        highlightDescendants: false,
+        highlightSiblings: false,
+        highlightChildNodes: false,
+        highlightPath: false,
+      },
       options = {
         ancestors: true,
         nodeValue: { status: true },
@@ -116,24 +124,30 @@
       .attr("transform", (d) => `translate(${d.y0},${d.x0})`)
       .on("mouseover", (e, d) => {
         //icicle.highlightNode(`node_${d.index}_${d.depth}`, "select");
-        
+
+        if (interactions.highlightNode) {
+          interaction.highlightNodeWithLinks(
+            `node_${d.index}_${d.depth}`,
+            "select"
+          );
+        }
         // Highlight Ancestors
-        if (highlightAncestors) {
-          console.log("coming here")
+        if (interactions.highlightAncestors) {
           let ancestors = d.ancestors();
-          interaction.highlightAncestors(
+          interaction.highlightAncestorsWithNoLinks(
             `node_${d.index}_${d.depth}`,
             ancestors,
             "select"
           );
         }
-
         //Highlight descendants
-        // if (highlightDescendants) {
-        //   let descendants = d.descendants();
-        //   interaction.highlightDescendantsNoLink(descendants, "select");
-        // }
-        if (highlightSiblings) {
+        if (interactions.highlightDescendants) {
+          console.log("coming here");
+          let descendants = d.descendants();
+          interaction.highlightDescendantsNoLink(descendants, "select");
+        }
+        //Highlight Siblings
+        if (interactions.highlightSiblings) {
           let parent = d.parent;
           let parentDescendants = d.parent.descendants();
           let siblingNodes = parentDescendants.filter(
@@ -142,7 +156,8 @@
           console.log(siblingNodes);
           interaction.highlightSiblingsWithNoLinks(siblingNodes, "select");
         }
-        if (highlightChildNodes) {
+        //Highlight Child Nodes
+        if (interactions.highlightChildNodes) {
           let descendants = d.descendants();
           let nodeName = d.data.name;
           let childNodes = descendants.filter((d) => {
@@ -156,7 +171,7 @@
           });
           interaction.highlightDescendantsNoLink(childNodes, "select");
         }
-        if (highlightPath) {
+        if (interactions.highlightPath) {
           interaction.highlightPathWithNoLinks(
             d.path(root.find((node) => node.data.name === "interpolate")),
             "select"
@@ -164,9 +179,15 @@
         }
       })
       .on("mouseout", function (e, d) {
-        //icicle.highlightNode(`node_${d.index}_${d.depth}`, "deselect");
+        if (interactions.highlightNode) {
+          interaction.highlightNodeWithLinks(
+            `node_${d.index}_${d.depth}`,
+            "deselect"
+          );
+        }
+
         // UnHighlight Ancestors
-        if (highlightAncestors) {
+        if (interactions.highlightAncestors) {
           interaction.highlightAncestors(
             `node_${d.index}_${d.depth}`,
             [],
@@ -175,13 +196,13 @@
         }
 
         //UnHighlight Descendants
-        if (highlightSiblings) {
+        if (interactions.highlightSiblings) {
           interaction.highlightSiblingsWithNoLinks([], "deselect");
         }
-        if (highlightChildNodes) {
+        if (interactions.highlightChildNodes) {
           interaction.highlightDescendantsNoLink([], "deselect");
         }
-        if (highlightPath) {
+        if (interactions.highlightPath) {
           interaction.highlightPathWithNoLinks([], "deselect");
         }
       });
@@ -212,7 +233,8 @@
       .attr("dx", label == null ? null : 3)
       .text((d) => format(d.value));
 
-    if (title != null) cell.append("title").text((d) => interaction.appendTitle(d, options));
+    if (title != null)
+      cell.append("title").text((d) => interaction.appendTitle(d, options));
 
     return svg.node();
   };

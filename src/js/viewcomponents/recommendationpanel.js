@@ -334,7 +334,7 @@
         interactionActive[interaction.id] = true;
       }
     })
-    console.log(interactionActive)
+    // console.log(interactionActive)
 
 
     //Checking ancestor interaction
@@ -383,6 +383,7 @@
         value: defaultAttr ? null : (d) => d[attr],
         width: 1152,
         height: 1000,
+        interactions: interactionActive
       });
     }
     if (visRecommendation === "treemap") {
