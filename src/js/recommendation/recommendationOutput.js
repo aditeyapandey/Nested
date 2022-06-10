@@ -19,7 +19,7 @@
       this.interaction = interaction;
       this.tooltip = tooltip;
       this.visSetting = visSetting;
-      this.hierarchydata = hierarchydata
+      this.hierarchyData = hierarchydata
     }
   }
 

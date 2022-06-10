@@ -96,7 +96,6 @@
 
   //Navigation bar for visualization
   recPanelUI.visualizationNavBar = function (recommendation) {
-    console.log(recommendation);
     recPanelUI.clearVisOutput("navBarContainer");
     let tasks = window.GLOBALDATA.tasks.selectedTasks;
 
@@ -287,6 +286,7 @@
      * widget: [{name:"range","task":"quantitative_value", label:"Node Value"}]
      */
     recPanelUI.clearVisOutput("widgetContainer");
+    console.log(recommendation);
 
     $("#recPanelBody").append(
       ` <div class="widgetContainerBody panelbodyitem" id="widgetContainer">
@@ -297,9 +297,8 @@
       $("#widgetContainer").append(widgetSearchBox.createSearchBox());
     }
     if (widget.name === "range") {
-      let data = window.GLOBALDATA.data["data"];
       $("#widgetContainer").append(widgetRangeFilter.createRangeFilter(widget));
-      widgetRangeFilter.setupRangeFilter(widget,data);
+      widgetRangeFilter.setupRangeFilter(widget,recommendation.hierarchyData);
     }
   }
   };

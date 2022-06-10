@@ -10,9 +10,11 @@
         <div>`;
   };
   widgetRangeFilter.setupRangeFilter = function (widget,data) {
-    console.log(widget,data);
 
-    var yourVlSpec = createVegaSpec(50, 50, [0, 26]);
+    let allData = data.descendants();
+    console.log(allData);
+
+    var yourVlSpec = createVegaSpec(50, 50, [0, 26],allData);
     $("#slider-range").slider({
       range: true,
       min: 8,
@@ -42,12 +44,10 @@
     });
   };
 
-  function createVegaSpec(width, height, sliderRange) {
+  function createVegaSpec(width, height, sliderRange,allData) {
     let vegaSpec = {
       $schema: "https://vega.github.io/schema/vega-lite/v5.json",
-      data: {
-        url: "https://raw.githubusercontent.com/vega/vega/main/docs/data/cars.json",
-      },
+      data: {values:allData},
       height: height,
       layer: [
         {
@@ -60,7 +60,7 @@
           ],
           mark: "bar",
           encoding: {
-            x: { field: "Acceleration", bin: true },
+            x: { field: "value", bin: true },
             y: { aggregate: "count", title:"count" },
           },
         },
@@ -68,7 +68,7 @@
           transform: [{ filter: { param: "brush" } }],
           mark: "bar",
           encoding: {
-            x: { field: "Acceleration", bin: true },
+            x: { field: "value", bin: true },
             y: { aggregate: "count", title:"count" },
             color: { value: "goldenrod" },
           },
@@ -76,6 +76,7 @@
       ],
       actions:false
     };
+    console.log(vegaSpec);
     return vegaSpec;
   }
 })();
