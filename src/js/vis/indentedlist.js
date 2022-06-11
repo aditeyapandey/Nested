@@ -22,7 +22,7 @@
       highlightChildNodes = false, //Enable child node interaction
       highlightPath = false, //Enable path selection between two nodes
       interactions = {
-        highlightNode: false,
+        highlightNode: true,
         highlightAncestors: false,
         highlightDescendants: false,
         highlightSiblings: false,
@@ -98,7 +98,7 @@
       .text((d) => d.data.name)
       .on("mouseover", (e, d) => {
         if (interactions.highlightNode)
-          indentedList.highlightNode("node_" + d.index, "select");
+          interaction.highlightNodeWithLinks("node_" + d.index, "select");
 
         if (interactions.highlightAncestors) {
           let ancestors = d.ancestors();
@@ -143,7 +143,7 @@
       })
       .on("mouseout", function (e, d) {
         if (interactions.highlightNode)
-          indentedList.highlightNode("node_" + d.index, "deselect");
+          interaction.highlightNodeWithLinks("node_" + d.index, "deselect");
 
         if (interactions.highlightAncestors) {
           interaction.highlightAncestors("node_" + d.index, [], "deselect");
@@ -188,6 +188,8 @@
         .attr("dy", "0.32em")
         .attr("x", x)
         .attr("text-anchor", "end")
+        .attr("id", (d) => "node_" + d.index)
+        .attr("class", "node")
         .attr("fill", (d) => (d.children ? null : "#555"))
         .data(root.copy().sum(value).descendants())
         .text((d) => format(d.value, d));
@@ -196,17 +198,17 @@
     return svg.node();
   };
 
-  indentedList.highlightNode = function (id, event) {
-    if (event === "select") {
-      d3.selectAll(".node").style("opacity", "0.2");
-      d3.selectAll(".link").style("opacity", "0.2");
-      d3.selectAll("#" + id).style("opacity", "1");
-      // var top = $("#" + id).position().top - 400;
-      // console.log(top);
-      // $("#visOutput").animate({ scrollTop: top + "px" }, 1000);
-    } else {
-      d3.selectAll(".node").style("opacity", "1");
-      d3.selectAll(".link").style("opacity", "1");
-    }
-  };
+  // indentedList.highlightNode = function (id, event) {
+  //   if (event === "select") {
+  //     d3.selectAll(".node").style("opacity", "0.2");
+  //     d3.selectAll(".link").style("opacity", "0.2");
+  //     d3.selectAll("#" + id).style("opacity", "1");
+  //     // var top = $("#" + id).position().top - 400;
+  //     // console.log(top);
+  //     // $("#visOutput").animate({ scrollTop: top + "px" }, 1000);
+  //   } else {
+  //     d3.selectAll(".node").style("opacity", "1");
+  //     d3.selectAll(".link").style("opacity", "1");
+  //   }
+  // };
 })();
