@@ -127,7 +127,7 @@
         {
           name: "range",
           task: "depth",
-          label: "Dalue",
+          label: "Depth",
           attrToUse: "depth",
         },
       ],

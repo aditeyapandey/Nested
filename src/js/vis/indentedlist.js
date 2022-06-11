@@ -152,31 +152,34 @@
 
     node.append("title").text((d) => interaction.appendTitle(d, options));
 
-    //     let columns = [
-    //     {
-    //       label: "Count",
-    //       value: d => d.children ? 0 : 1,
-    //       format: (value, d) => d.children ? format(value) : "-",
-    //       x: 340
-    //     }
-    //   ]
-    // for (const {label, value, format, x} of columns) {
-    //   svg.append("text")
-    //       .attr("dy", "0.32em")
-    //       .attr("y", -nodeSize)
-    //       .attr("x", x)
-    //       .attr("text-anchor", "end")
-    //       .attr("font-weight", "bold")
-    //       .text(label);
+    format = d3.format(",");
+    let columns = [
+      {
+        label: "Size",
+        value: d => d.value,
+        format,
+        x: 340,
+      },
+    ];
+    for (const { label, value, format, x } of columns) {
+      svg
+        .append("text")
+        .attr("dy", "0.32em")
+        .attr("y", -nodeSize)
+        .attr("x", x)
+        .attr("text-anchor", "end")
+        .attr("font-weight", "bold")
+        .text(label);
 
-    //   node.append("text")
-    //       .attr("dy", "0.32em")
-    //       .attr("x", x)
-    //       .attr("text-anchor", "end")
-    //       .attr("fill", d => d.children ? null : "#555")
-    //     .data(root.copy().sum(value).descendants())
-    //       .text(d => format(d.value, d));
-    // }
+      node
+        .append("text")
+        .attr("dy", "0.32em")
+        .attr("x", x)
+        .attr("text-anchor", "end")
+        .attr("fill", (d) => (d.children ? null : "#555"))
+        .data(root.copy().sum(value).descendants())
+        .text((d) => format(d.value, d));
+    }
 
     return svg.node();
   };
@@ -194,5 +197,4 @@
       d3.selectAll(".link").style("opacity", "1");
     }
   };
-
 })();
