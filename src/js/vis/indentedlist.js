@@ -21,6 +21,14 @@
       highlightSiblings = false, //Enable siblings interaction
       highlightChildNodes = false, //Enable child node interaction
       highlightPath = false, //Enable path selection between two nodes
+      interactions = {
+        highlightNode: false,
+        highlightAncestors: false,
+        highlightDescendants: false,
+        highlightSiblings: false,
+        highlightChildNodes: false,
+        highlightPath: false,
+      },
       options = {
         ancestors: true,
         nodeValue: { status: true },
@@ -89,8 +97,10 @@
       .attr("class", "node")
       .text((d) => d.data.name)
       .on("mouseover", (e, d) => {
-        //indentedList.highlightNode("node_"+d.index, "select");
-        if (highlightAncestors) {
+        if (interactions.highlightNode)
+          indentedList.highlightNode("node_" + d.index, "select");
+
+        if (interactions.highlightAncestors) {
           let ancestors = d.ancestors();
           interaction.highlightAncestors(
             "node_" + d.index,
@@ -98,11 +108,11 @@
             "select"
           );
         }
-        // if (highlightDescendants) {
-        //     let descendants = d.descendants();
-        //     interaction.highlightDescendantsWithLinks(descendants, "select");
-        //   }
-        if (highlightSiblings) {
+        if (interactions.highlightDescendants) {
+          let descendants = d.descendants();
+          interaction.highlightDescendantsWithLinks(descendants, "select");
+        }
+        if (interactions.highlightSiblings) {
           let parent = d.parent;
           let parentDescendants = d.parent.descendants();
           let siblingNodes = parentDescendants.filter(
@@ -110,7 +120,7 @@
           );
           interaction.highlightSiblingsWithLinks(siblingNodes, "select");
         }
-        if (highlightChildNodes) {
+        if (interactions.highlightChildNodes) {
           let descendants = d.descendants();
           let nodeName = d.data.name;
           let childNodes = descendants.filter((d) => {
@@ -124,7 +134,7 @@
           });
           interaction.highlightDescendantsWithLinks(childNodes, "select");
         }
-        if (highlightPath) {
+        if (interactions.highlightPath) {
           interaction.highlightPath(
             d.path(root.find((node) => node.data.name === "interpolate")),
             "select"
@@ -132,20 +142,22 @@
         }
       })
       .on("mouseout", function (e, d) {
-        //indentedList.highlightNode("node_"+d.index, "deselect");
-        if (highlightAncestors) {
+        if (interactions.highlightNode)
+          indentedList.highlightNode("node_" + d.index, "deselect");
+
+        if (interactions.highlightAncestors) {
           interaction.highlightAncestors("node_" + d.index, [], "deselect");
         }
-        // if (highlightDescendants) {
-        //     interaction.highlightDescendantsWithLinks([], "deselect");
-        //   }
-        if (highlightSiblings) {
-          interaction.highlightSiblingsWithLinks([], "deselect");
-        }
-        if (highlightChildNodes) {
+        if (interactions.highlightDescendants) {
           interaction.highlightDescendantsWithLinks([], "deselect");
         }
-        if (highlightPath) {
+        if (interactions.highlightSiblings) {
+          interaction.highlightSiblingsWithLinks([], "deselect");
+        }
+        if (interactions.highlightChildNodes) {
+          interaction.highlightDescendantsWithLinks([], "deselect");
+        }
+        if (interactions.highlightPath) {
           interaction.highlightPath([], "deselect");
         }
       });
@@ -156,7 +168,7 @@
     let columns = [
       {
         label: "Size",
-        value: d => d.value,
+        value: (d) => d.value,
         format,
         x: 340,
       },
