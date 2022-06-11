@@ -22,7 +22,7 @@
       highlightChildNodes = false, //Enable child node interaction
       highlightPath = false, //Enable path selection between two nodes
       interactions = {
-        highlightNode: true,
+        highlightNode: false,
         highlightAncestors: false,
         highlightDescendants: false,
         highlightSiblings: false,

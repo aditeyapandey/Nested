@@ -396,7 +396,9 @@
       // });
     }
     if (visRecommendation === "indented") {
-      chart = indentedList.createIndentedList(data, {});
+      chart = indentedList.createIndentedList(data, {
+        interactions: interactionActive
+      });
     }
     if (visRecommendation === "radialNL") {
       chart = radialNodeLink.createChart(data, {
@@ -405,6 +407,7 @@
         value: defaultAttr ? null : (d) => d[attr],
         width: 1000,
         height: 1152,
+        interactions: interactionActive
       });
     }
     if (visRecommendation === "radialLD") {
@@ -429,6 +432,7 @@
         // title: (d, n) => `${n.ancestors().reverse().map(({data: d}) => d.name).join(".")}\n${n.value.toLocaleString("en")}`,
         width: 1152,
         height: 1152,
+        interactions: interactionActive
       });
     }
     $("#visOutput").append(chart);
