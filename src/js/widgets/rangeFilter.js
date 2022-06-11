@@ -13,17 +13,18 @@
 
     console.log(widget.attrToUse);
     let allData = data.descendants();
-    console.log(allData);
+    let min = d3.min(allData.map(d => d[widget.attrToUse]));
+    let max = d3.max(allData.map(d => d[widget.attrToUse]));
 
-    var yourVlSpec = createVegaSpec(50, 50, [0, 26],allData,widget.attrToUse);
+    var yourVlSpec = createVegaSpec(50, 50, [min, max],allData,widget.attrToUse);
     $("#slider-range").slider({
       range: true,
-      min: 8,
-      max: 26,
-      values: [8, 26],
+      min: min,
+      max: max,
+      values: [min, max],
       slide: function (event, ui) {
         // $("#amount").val(ui.values[0] + " - " + ui.values[1]);
-        var yourVlSpec = createVegaSpec(50, 50, [ui.values[0], ui.values[1]]);
+        var yourVlSpec = createVegaSpec(50, 50, [ui.values[0], ui.values[1]],allData,widget.attrToUse);
         vegaEmbed("#vis", yourVlSpec, {"actions": false}).then(({ spec, view }) => {
           view.addSignalListener("brush", function (event, item) {
             $("#slider-range").slider("values", [

@@ -126,9 +126,9 @@
         { name: "search", task: "categorical_value", label: "Node Label" },
         {
           name: "range",
-          task: "quantitative_value",
-          label: "Node Value",
-          attrToUse: "value",
+          task: "depth",
+          label: "Dalue",
+          attrToUse: "depth",
         },
       ],
       localInteractionCopy,
