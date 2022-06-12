@@ -380,6 +380,7 @@
         width: 1152,
         height: 1152,
         value: defaultAttr ? null : (d) => d[attr],
+        interactions: interactionActive
       });
       // chart = treemap.createTreemap(data, {
       //   label: (d) => d.name,

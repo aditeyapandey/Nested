@@ -142,7 +142,6 @@
         }
         //Highlight descendants
         if (interactions.highlightDescendants) {
-          console.log("coming here");
           let descendants = d.descendants();
           interaction.highlightDescendantsNoLink(descendants, "select");
         }
