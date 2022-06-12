@@ -33,6 +33,14 @@
       highlightSiblings = false, //Enable siblings interaction
       highlightChildNodes = false,
       highlightPath = false,
+      interactions = {
+        highlightNode: false,
+        highlightAncestors: false,
+        highlightDescendants: false,
+        highlightSiblings: false,
+        highlightChildNodes: false,
+        highlightPath: false,
+      },
       options = {
         ancestors: true,
         nodeValue: { status: true },
@@ -98,7 +106,13 @@
       .attr("id", (d) => `node_${d.index}_${d.depth}`)
       .on("mouseover", (e, d) => {
         //nestedBubble.highlightNode(`node_${d.index}_${d.depth}`, "select");
-        if (highlightAncestors) {
+        if (interactions.highlightNode) {
+          interaction.highlightNodeWithLinks(
+            `node_${d.index}_${d.depth}`,
+            "select"
+          );
+        }
+        if (interactions.highlightAncestors) {
           let ancestors = d.ancestors();
           interaction.highlightAncestorsWithNoLinks(
             `node_${d.index}_${d.depth}`,
@@ -106,11 +120,11 @@
             "select"
           );
         }
-        // if (highlightDescendants) {
-        //   let descendants = d.descendants();
-        //   interaction.highlightDescendantsNoLink(descendants, "select");
-        // }
-        if (highlightSiblings) {
+        if (interactions.highlightDescendants) {
+          let descendants = d.descendants();
+          interaction.highlightDescendantsNoLink(descendants, "select");
+        }
+        if (interactions.highlightDescendants) {
           let parent = d.parent;
           let parentDescendants = d.parent.descendants();
           let siblingNodes = parentDescendants.filter(
@@ -119,7 +133,7 @@
           console.log(siblingNodes);
           interaction.highlightSiblingsWithNoLinks(siblingNodes, "select");
         }
-        if (highlightChildNodes) {
+        if (interactions.highlightDescendants) {
           let descendants = d.descendants();
           let nodeName = d.data.name;
           let childNodes = descendants.filter((d) => {
@@ -133,7 +147,7 @@
           });
           interaction.highlightDescendantsNoLink(childNodes, "select");
         }
-        if (highlightPath) {
+        if (interactions.highlightDescendants) {
           interaction.highlightPathWithNoLinks(
             d.path(root.find((node) => node.data.name === "interpolate")),
             "select"
@@ -141,24 +155,29 @@
         }
       })
       .on("mouseout", function (e, d) {
-        //nestedBubble.highlightNode(`node_${d.index}_${d.depth}`, "deselect");
-        if (highlightAncestors) {
+        if (interactions.highlightNode) {
+          interaction.highlightNodeWithLinks(
+            `node_${d.index}_${d.depth}`,
+            "deselect"
+          );
+        }
+        if (interactions.highlightAncestors) {
           interaction.highlightAncestorsWithNoLinks(
             `node_${d.index}_${d.depth}`,
             [],
             "deselect"
           );
         }
-        // if (highlightDescendants) {
-        //   interaction.highlightDescendantsNoLink([], "deselect");
-        // }
-        if (highlightSiblings) {
-          interaction.highlightSiblingsWithNoLinks([], "deselect");
-        }
-        if (highlightChildNodes) {
+        if (interactions.highlightDescendants) {
           interaction.highlightDescendantsNoLink([], "deselect");
         }
-        if (highlightPath) {
+        if (interactions.highlightSiblings) {
+          interaction.highlightSiblingsWithNoLinks([], "deselect");
+        }
+        if (interactions.highlightChildNodes) {
+          interaction.highlightDescendantsNoLink([], "deselect");
+        }
+        if (interactions.highlightPath) {
           interaction.highlightPathWithNoLinks([], "deselect");
         }
       });
